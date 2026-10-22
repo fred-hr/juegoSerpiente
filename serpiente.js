@@ -17,6 +17,8 @@ let intervaloSerpiente;
 let direccionActual = "derecha";
 let comida = null;
 let puntaje = 0;
+let juegoTerminado = false;
+let velocidad = 300;
 
 // Primera pintura del juego al cargar la página
 dibujarTodo();
@@ -130,6 +132,22 @@ function moverAbajo() {
   serpiente.pop();
 }
 function cambiarDireccion(direccion) {
+  if (direccionActual == "derecha" && direccion == "izquierda") {
+    return;
+  }
+
+  if (direccionActual == "izquierda" && direccion == "derecha") {
+    return;
+  }
+
+  if (direccionActual == "arriba" && direccion == "abajo") {
+    return;
+  }
+
+  if (direccionActual == "abajo" && direccion == "arriba") {
+    return;
+  }
+
   direccionActual = direccion;
 }
 
@@ -148,6 +166,14 @@ function moverSerpiente() {
 
   if (direccionActual == "abajo") {
     moverAbajo();
+  }
+  if (tocaBorde() == true) {
+    finalizarJuego();
+    return;
+  }
+  if (chocaConCuerpo() == true) {
+    finalizarJuego();
+    return;
   }
 
   if (atrapaComida() == true) {
@@ -184,6 +210,8 @@ function moverSerpiente() {
     serpiente.push(nuevaParte);
 
     comida = null;
+
+  
   }
 
   limpiarCanvas();
@@ -192,7 +220,11 @@ function moverSerpiente() {
   pintarComida();
 }
 function iniciarJuego() {
-  intervaloSerpiente = setInterval(moverSerpiente, 1000);
+  intervaloSerpiente = setInterval(moverSerpiente, velocidad);
+
+  document.getElementById("estado").innerText = "Jugando";
+  document.getElementById("mensaje").innerText =
+    "Usa las flechas para dirigir la serpiente.";
 }
 
 function pausarJuego() {
@@ -222,3 +254,89 @@ function atrapaComida() {
     return false;
   }
 }
+
+function tocaBorde() {
+  let cabeza = serpiente[0];
+
+  let columnas = canvas.width / TAMANIO_CELDA;
+  let filas = canvas.height / TAMANIO_CELDA;
+
+  if (
+    cabeza.x < 0 ||
+    cabeza.x >= columnas ||
+    cabeza.y < 0 ||
+    cabeza.y >= filas
+  ) {
+    return true;
+  }
+
+  return false;
+}
+function finalizarJuego() {
+  juegoTerminado = true;
+
+  clearInterval(intervaloSerpiente);
+
+  document.getElementById("estado").innerText = "GAME OVER";
+  document.getElementById("mensaje").innerText =
+    "💀 GAME OVER - Presiona Reiniciar para volver a jugar.";
+}
+
+function reiniciarJuego() {
+  clearInterval(intervaloSerpiente);
+
+  serpiente.length = 0;
+
+  serpiente.push({x:0, y:10});
+  serpiente.push({x:0, y:9});
+  serpiente.push({x:0, y:8});
+  serpiente.push({x:0, y:7});
+  serpiente.push({x:0, y:6});
+
+  direccionActual = "derecha";
+  juegoTerminado = false;
+  puntaje = 0;
+  comida = null;
+
+  document.getElementById("puntaje").innerText = puntaje;
+  document.getElementById("estado").innerText = "Listo";
+  document.getElementById("mensaje").innerText =
+    "Presiona iniciar para comenzar.";
+
+  dibujarTodo();
+}
+
+function chocaConCuerpo() {
+  let cabeza = serpiente[0];
+
+  for (let i = 1; i < serpiente.length; i++) {
+    if (
+      cabeza.x == serpiente[i].x &&
+      cabeza.y == serpiente[i].y
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+document.addEventListener("keydown", function(event) {
+
+  if (event.key == "ArrowUp") {
+    cambiarDireccion("arriba");
+  }
+
+  if (event.key == "ArrowDown") {
+    cambiarDireccion("abajo");
+  }
+
+  if (event.key == "ArrowLeft") {
+    cambiarDireccion("izquierda");
+  }
+
+  if (event.key == "ArrowRight") {
+    cambiarDireccion("derecha");
+  }
+
+});

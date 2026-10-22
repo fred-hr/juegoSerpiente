@@ -7,139 +7,427 @@
 
 body {
     min-height: 100vh;
-    background: linear-gradient(135deg, #020617, #0f172a);
-    color: white;
+    color: rgb(172, 214, 18);
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
+
+    background:
+        linear-gradient(
+            rgba(0, 0, 0, 0.18),
+            rgba(0, 0, 0, 0.28)
+        ),
+        url("img/serpiente.png");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 .contenedor-juego {
     width: 100%;
     max-width: 720px;
-    background: #0b1120;
-    border: 2px solid #22c55e;
-    border-radius: 20px;
+
+    background: rgba(3, 15, 10, 0.78);
+
+    border: 2px solid #39ff14;
+    border-radius: 22px;
+
     padding: 24px;
-    box-shadow: 0 0 30px rgba(34, 197, 94, 0.25);
+
     text-align: center;
+
+    box-shadow:
+        0 0 25px rgba(57, 255, 20, 0.30),
+        0 15px 40px rgba(0, 0, 0, 0.45);
+
+    backdrop-filter: blur(3px);
 }
 
 h1 {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+
     font-size: 32px;
-    color: #4ade80;
-    text-shadow: 0 0 12px rgba(74, 222, 128, 0.5);
+
+    color: #7fff00;
+
+    text-shadow:
+        0 0 8px #39ff14,
+        0 0 18px rgba(57, 255, 20, 0.45);
 }
 
 .descripcion {
     margin-bottom: 18px;
-    color: #cbd5e1;
-    line-height: 1.5;
+
+    color: #e5ffe5;
+
+    line-height: 1.4;
+
+    font-size: 15px;
 }
+
+/* =========================
+   PANEL PUNTAJE / ESTADO
+   ========================= */
 
 .panel-info {
     display: flex;
+
     justify-content: space-between;
-    gap: 12px;
+
+    gap: 14px;
+
     margin-bottom: 16px;
-    flex-wrap: wrap;
 }
 
 .tarjeta-info {
     flex: 1;
-    min-width: 150px;
-    background: #1f2937;
-    padding: 14px;
+
+    background: rgba(15, 35, 28, 0.88);
+
+    border: 1px solid rgba(57, 255, 20, 0.35);
+
     border-radius: 14px;
-    border: 1px solid #374151;
+
+    padding: 12px;
+
+    box-shadow:
+        inset 0 0 12px rgba(57, 255, 20, 0.05),
+        0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .tarjeta-info span {
     display: block;
-    font-size: 14px;
-    color: #94a3b8;
+
+    font-size: 13px;
+
+    color: #b7c9bd;
+
     margin-bottom: 4px;
 }
 
 .tarjeta-info strong {
-    font-size: 24px;
+    font-size: 22px;
+
     color: #facc15;
 }
 
+/* =========================
+   CANVAS
+   ========================= */
+
 canvas {
     width: 100%;
+
     max-width: 600px;
-    background: #030712;
-    border: 4px solid #4ade80;
-    border-radius: 12px;
+
+    background: rgba(1, 8, 14, 0.96);
+
+    border: 4px solid #7fff00;
+
+    border-radius: 14px;
+
     display: block;
+
     margin: 0 auto 20px auto;
-    box-shadow: 0 0 20px rgba(74, 222, 128, 0.35);
+
+    box-shadow:
+        0 0 12px rgba(127, 255, 0, 0.7),
+        0 0 30px rgba(57, 255, 20, 0.25);
 }
+
+/* =========================
+   CONTROLES DE DIRECCIÓN
+   ========================= */
 
 .controles {
     display: grid;
-    grid-template-columns: repeat(3, 90px);
-    gap: 10px;
+
+    grid-template-columns: repeat(3, 60px);
+
+    grid-template-rows: repeat(3, 54px);
+
+    gap: 9px;
+
     justify-content: center;
+
     align-items: center;
+
     margin-bottom: 18px;
 }
 
-.controles button,
-.acciones button {
-    border: none;
-    border-radius: 10px;
-    padding: 12px 16px;
-    background: #22c55e;
-    color: #052e16;
+.controles button {
+    width: 60px;
+
+    height: 54px;
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    border-radius: 14px;
+
+    background: linear-gradient(
+        145deg,
+        #22c55e,
+        #059669
+    );
+
+    color: white;
+
+    font-size: 21px;
+
     font-weight: bold;
+
     cursor: pointer;
-    transition: 0.2s;
+
+    box-shadow:
+        0 6px 12px rgba(0, 0, 0, 0.35),
+        0 0 10px rgba(34, 197, 94, 0.28);
+
+    transition:
+        transform 0.2s,
+        background 0.2s,
+        box-shadow 0.2s;
 }
 
-.controles button:hover,
-.acciones button:hover {
-    transform: scale(1.05);
-    background: #86efac;
+.controles button:hover {
+    transform: translateY(-2px) scale(1.06);
+
+    background: linear-gradient(
+        145deg,
+        #4ade80,
+        #16a34a
+    );
+
+    box-shadow:
+        0 8px 18px rgba(0, 0, 0, 0.40),
+        0 0 18px rgba(74, 222, 128, 0.45);
 }
+
+.controles button:active {
+    transform: scale(0.94);
+}
+
+/* ARRIBA */
+
+.controles button[onclick*="arriba"] {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+/* IZQUIERDA */
+
+.controles button[onclick*="izquierda"] {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+/* PAUSA */
+
+.controles button[onclick="pausarJuego()"] {
+    grid-column: 2;
+    grid-row: 2;
+
+    background: linear-gradient(
+        145deg,
+        #0ca549,
+        #d97706
+    );
+}
+
+.controles button[onclick="pausarJuego()"]:hover {
+    background: linear-gradient(
+        145deg,
+        #439bcf,
+        #14a419
+    );
+
+    box-shadow:
+        0 8px 18px rgba(0, 0, 0, 0.40),
+        0 0 18px rgba(24, 209, 18, 0.45);
+}
+
+/* DERECHA */
+
+.controles button[onclick*="derecha"] {
+    grid-column: 3;
+    grid-row: 2;
+}
+
+/* ABAJO */
+
+.controles button[onclick*="abajo"] {
+    grid-column: 2;
+    grid-row: 3;
+}
+
+/* OCULTA LOS BOTONES VACÍOS */
 
 .vacio {
-    visibility: hidden;
+    display: none;
 }
+
+/* =========================
+   BOTONES INICIAR / REINICIAR
+   ========================= */
 
 .acciones {
     display: flex;
+
     justify-content: center;
+
     gap: 12px;
+
     flex-wrap: wrap;
+
+    margin-bottom: 14px;
 }
+
+.acciones button {
+    min-width: 125px;
+
+    padding: 13px 20px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    color: white;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s,
+        background 0.2s,
+        box-shadow 0.2s;
+
+    box-shadow:
+        0 6px 14px rgba(0, 0, 0, 0.35);
+}
+
+/* INICIAR */
+
+.acciones button:first-child {
+    background: linear-gradient(
+        145deg,
+        #0ea5e9,
+        #0284c7
+    );
+}
+
+.acciones button:first-child:hover {
+    background: linear-gradient(
+        145deg,
+        #38bdf8,
+        #0ea5e9
+    );
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 18px rgba(0, 0, 0, 0.35),
+        0 0 14px rgba(14, 165, 233, 0.45);
+}
+
+/* REINICIAR */
 
 .acciones .secundario {
-    background: #38bdf8;
-    color: #082f49;
+    background: linear-gradient(
+        145deg,
+        #ef4444,
+        #dc2626
+    );
 }
 
+.acciones .secundario:hover {
+    background: linear-gradient(
+        145deg,
+        #f87171,
+        #ef4444
+    );
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 18px rgba(0, 0, 0, 0.35),
+        0 0 14px rgba(239, 68, 68, 0.45);
+}
+
+/* =========================
+   MENSAJE
+   ========================= */
+
 .mensaje {
-    margin-top: 14px;
-    color: #e2e8f0;
+    margin-top: 10px;
+
     min-height: 24px;
+
+    padding: 11px 14px;
+
+    border-radius: 12px;
+
+    background: rgba(255, 255, 255, 0.07);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    color: #f8fafc;
+
+    font-size: 14px;
+
     font-weight: bold;
 }
 
-@media (max-width: 520px) {
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 700px) {
+
+    body {
+        padding: 10px;
+    }
+
+    .contenedor-juego {
+        padding: 16px;
+    }
+
     h1 {
-        font-size: 24px;
+        font-size: 26px;
+    }
+
+    .descripcion {
+        font-size: 14px;
     }
 
     .controles {
-        grid-template-columns: repeat(3, 75px);
+        grid-template-columns: repeat(3, 56px);
+        grid-template-rows: repeat(3, 50px);
+        gap: 8px;
     }
 
-    .controles button,
+    .controles button {
+        width: 56px;
+        height: 50px;
+        font-size: 19px;
+    }
+}
+
+@media (max-width: 450px) {
+
+    .panel-info {
+        flex-direction: column;
+    }
+
     .acciones button {
-        padding: 10px;
+        min-width: 110px;
+    }
+
+    h1 {
+        font-size: 23px;
     }
 }
