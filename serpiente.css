@@ -226,28 +226,26 @@ canvas {
 /* PAUSA */
 
 .controles button[onclick="pausarJuego()"] {
-    grid-column: 2;
-    grid-row: 2;
-
     background: linear-gradient(
         145deg,
-        #0ca549,
+        #f59e0b,
         #d97706
     );
+
+    color: rgb(228, 218, 17);
 }
 
 .controles button[onclick="pausarJuego()"]:hover {
     background: linear-gradient(
         145deg,
-        #439bcf,
-        #14a419
+        #fbbf24,
+        #f59e0b
     );
 
     box-shadow:
         0 8px 18px rgba(0, 0, 0, 0.40),
-        0 0 18px rgba(24, 209, 18, 0.45);
+        0 0 18px rgba(245, 158, 11, 0.55);
 }
-
 /* DERECHA */
 
 .controles button[onclick*="derecha"] {
