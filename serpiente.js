@@ -5,6 +5,14 @@ const ctx = canvas.getContext("2d");
 
 const TAMANIO_CELDA = 25;
 
+const serpiente = [
+  {x:0, y:10},
+  {x:0, y:9},
+  {x:0, y:8},
+  {x:0, y:7},
+  {x:0, y:6}
+];
+
 
 
 
@@ -51,13 +59,22 @@ function pintarParte(lineaX, lineaY) {
 function dibujarTodo() {
   limpiarCanvas();
   dibujarTablero();
-
-  pintarParte(5,5);    // Prueba 1
-  pintarParte(10,2);   // Prueba 2
-  pintarParte(5,23);   // Borde inferior
-  pintarParte(23,5);   // Borde derecho
-  pintarParte(0,5);    // Borde izquierdo
-  pintarParte(23,23);  // Esquina inferior derecha
+  pintarSerpiente();
 }
 
+function pintarSerpiente() {
+  for (let i = 0; i < serpiente.length; i++) {
+    pintarParte(serpiente[i].x, serpiente[i].y);
+  }
 
+  let cabeza = serpiente[0];
+
+  let x = cabeza.x * TAMANIO_CELDA;
+  let y = cabeza.y * TAMANIO_CELDA;
+
+  ctx.fillStyle = "yellow";
+  ctx.fillRect(x, y, TAMANIO_CELDA, TAMANIO_CELDA);
+
+  ctx.strokeStyle = "white";
+  ctx.strokeRect(x, y, TAMANIO_CELDA, TAMANIO_CELDA);
+}
